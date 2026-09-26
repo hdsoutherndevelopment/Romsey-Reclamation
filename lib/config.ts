@@ -1,10 +1,10 @@
-// Central business details. Every line marked CONFIRM should be checked with the client before launch.
+﻿// Central business details. Every line marked CONFIRM should be checked with the client before launch.
 
 export const site = {
   name: "Romsey Reclamation",
   legalName: "Romsey Reclamation Ltd",
   tagline: "Reclaim • Recycle • Restore",
-  url: process.env.NEXT_PUBLIC_SITE_URL ?? "https://romsey-reclamation.vercel.app", // CONFIRM production domain
+  url: process.env.NEXT_PUBLIC_SITE_URL || "https://romsey-reclamation.vercel.app", // CONFIRM production domain
   description:
     "Architectural salvage, reclaimed building materials and seasoned oak from our yard at Awbridge, near Romsey, Hampshire. Railway sleepers, reclaimed bricks, roof tiles, slates, paving, stone and oak.",
 
