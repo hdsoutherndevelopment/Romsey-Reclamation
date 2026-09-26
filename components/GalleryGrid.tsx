@@ -28,7 +28,7 @@ export function GalleryGrid({ images, groups }: { images: Img[]; groups: string[
       <div role="group" aria-label="Filter by material" className="no-scrollbar -mx-[clamp(1.25rem,4vw,3rem)] mb-8 flex gap-2 overflow-x-auto px-[clamp(1.25rem,4vw,3rem)]">
         {["All", ...groups].map((g) => (
           <button key={g} type="button" onClick={() => setFilter(g)} aria-pressed={filter === g}
-            className={`shrink-0 rounded-full border px-4 py-2 text-sm font-semibold transition-colors ${filter === g ? "border-charcoal bg-charcoal text-lime" : "border-rule hover:border-charcoal"}`}>
+            className={`shrink-0 rounded-full border px-4 py-2 text-sm font-semibold transition-colors ${filter === g ? "border-brass bg-brass text-ink" : "border-rule hover:border-charcoal"}`}>
             {g}
           </button>
         ))}
@@ -38,7 +38,7 @@ export function GalleryGrid({ images, groups }: { images: Img[]; groups: string[
         {shown.map((g, i) => (
           <li key={`${g.art.kind}-${g.art.seed}-${i}`} className="mb-4 break-inside-avoid">
             <figure>
-              <button type="button" onClick={() => setOpen(i)} className={`group img-zoom block w-full overflow-hidden bg-oak-dark ${["aspect-[4/5]", "aspect-[4/3]", "aspect-square"][i % 3]}`} aria-label={`View larger: ${g.caption}`}>
+              <button type="button" onClick={() => setOpen(i)} className={`group img-zoom frame block w-full overflow-hidden bg-oak-dark ${["aspect-[4/5]", "aspect-[4/3]", "aspect-square"][i % 3]}`} aria-label={`View larger: ${g.caption}`}>
                 <Visual art={g.art} alt={g.caption} />
               </button>
               <figcaption className="mt-2 text-sm text-charcoal/70">{g.caption}</figcaption>

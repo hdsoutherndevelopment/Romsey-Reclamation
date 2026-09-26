@@ -17,7 +17,7 @@ function Num({ label, value, onChange, suffix = "m" }: { label: string; value: s
   return (
     <label className="text-sm font-semibold">
       {label}
-      <span className="mt-2 flex items-center rounded-[2px] border border-rule bg-lime focus-within:border-charcoal">
+      <span className="mt-2 flex items-center rounded-[2px] border border-charcoal/15 bg-plaster focus-within:border-brass">
         <input type="number" inputMode="decimal" min="0" step="0.1" value={value} onChange={(e) => onChange(e.target.value)} className="w-full min-w-0 bg-transparent px-3 py-2.5 text-base font-normal outline-none" />
         <span className="pr-3 font-normal text-charcoal/55">{suffix}</span>
       </span>
@@ -39,11 +39,11 @@ export function Calculator({ kind, compact = false }: { kind: CalcKey; compact?:
     : kind === "tiles" ? tiles(+a)
     : paving(+a, +b);
 
-  const sel = "mt-2 block w-full rounded-[2px] border border-rule bg-lime px-3 py-2.5 text-base font-normal outline-none focus:border-charcoal";
+  const sel = "mt-2 block w-full rounded-[2px] border border-charcoal/15 bg-plaster px-3 py-2.5 text-base font-normal outline-none focus:border-brass";
   const sizeLabel = SLEEPER_LENGTHS.find((s) => s.id === size)?.label;
 
   return (
-    <div className={`border border-charcoal/10 bg-lime shadow-[0_40px_80px_-50px_rgba(23,21,18,.55)] ${compact ? "p-6 sm:p-8" : "p-6 sm:p-10"}`}>
+    <div className={`border border-brass/20 bg-surface shadow-[0_50px_100px_-50px_rgba(0,0,0,.8)] ${compact ? "p-6 sm:p-8" : "p-6 sm:p-10"}`}>
       <div className="flex items-start justify-between gap-4">
         <div>
           <p className="eyebrow flex items-center gap-2 text-oak"><CalcIcon className="h-4 w-4" strokeWidth={1.75} aria-hidden="true" />Quantity calculator</p>

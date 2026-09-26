@@ -10,8 +10,8 @@ export function SectionHead({ index, label, title, intro, id, light = false, cla
     <div className={`mb-14 grid gap-8 lg:mb-20 lg:grid-cols-12 lg:items-end ${className}`}>
       <div className="lg:col-span-8">
         <p className={`eyebrow mb-6 flex items-center gap-3 ${light ? "text-lime/60" : "text-charcoal/60"}`}>
-          <span className={light ? "text-oak-light" : "text-brick"}>({index})</span>
-          <span className={`h-px w-10 ${light ? "bg-lime/30" : "bg-charcoal/30"}`} aria-hidden="true" />
+          <span className="text-brass">({index})</span>
+          <span className="h-px w-10 bg-brass/50" aria-hidden="true" />
           {label}
         </p>
         <h2 id={id} className="stencil text-[clamp(3rem,7.5vw,7.25rem)]">{title}</h2>

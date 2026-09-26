@@ -56,7 +56,7 @@ export default function Sell() {
             <p className="mt-5 max-w-sm text-charcoal/75">If it’s sound, has character and someone could build with it, we’d like to hear about it.</p>
           </div>
           <ul className="flex flex-wrap content-start gap-2 lg:col-span-8">
-            {wanted.map((w) => <li key={w} className="border border-charcoal/25 bg-lime px-4 py-2 text-[0.95rem]">{w}</li>)}
+            {wanted.map((w) => <li key={w} className="border border-charcoal/20 bg-surface px-4 py-2 text-[0.95rem]">{w}</li>)}
           </ul>
         </div>
       </section>

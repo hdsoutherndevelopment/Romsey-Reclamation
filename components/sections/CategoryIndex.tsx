@@ -30,7 +30,7 @@ export function CategoryIndex({ rows }: { rows: Row[] }) {
               <span className="eyebrow hidden text-charcoal/45 sm:block">{String(i + 1).padStart(2, "0")}</span>
               <span className="stencil text-[clamp(1.9rem,5vw,4.4rem)] transition-transform duration-700 ease-[cubic-bezier(.16,1,.3,1)] group-hover:translate-x-3">{r.title}</span>
               <span className="hidden max-w-sm text-[0.95rem] text-charcoal/65 lg:block">{r.short}</span>
-              <span className="grid h-11 w-11 place-items-center rounded-full border border-charcoal/25 transition-colors duration-300 group-hover:border-charcoal group-hover:bg-charcoal group-hover:text-lime">
+              <span className="grid h-11 w-11 place-items-center rounded-full border border-charcoal/25 transition-colors duration-300 group-hover:border-charcoal group-hover:bg-brass group-hover:text-ink">
                 <ArrowUpRight className="h-4 w-4 transition-transform duration-500 group-hover:rotate-45" strokeWidth={1.5} aria-hidden="true" />
               </span>
             </Link>

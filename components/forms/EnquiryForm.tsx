@@ -107,7 +107,7 @@ export function EnquiryForm({ defaultTopic = "", withList = true }: { defaultTop
     );
   }
 
-  const field = "mt-2 block w-full rounded-[2px] border border-rule bg-lime px-4 py-3 text-base font-normal outline-none transition-colors focus:border-charcoal aria-[invalid=true]:border-brick";
+  const field = "mt-2 block w-full rounded-[2px] border border-charcoal/15 bg-surface px-4 py-3 text-base font-normal outline-none transition-colors focus:border-brass aria-[invalid=true]:border-brick";
   const label = "text-sm font-semibold";
   const err = (k: string) => errors[k] && <p id={`${k}-error`} className="mt-1.5 text-sm font-normal text-brick">{errors[k]}</p>;
   const aria = (k: string) => ({ "aria-invalid": !!errors[k], "aria-describedby": errors[k] ? `${k}-error` : undefined });
@@ -119,7 +119,7 @@ export function EnquiryForm({ defaultTopic = "", withList = true }: { defaultTop
       </div>
 
       {list.length > 0 && (
-        <fieldset className="border border-charcoal/80 bg-lime p-5 sm:col-span-2">
+        <fieldset className="border border-brass/40 bg-surface p-5 sm:col-span-2">
           <legend className="px-2 text-sm font-semibold">Your enquiry list ({list.length})</legend>
           <ul className="divide-y divide-rule">
             {list.map((i) => (
@@ -184,7 +184,7 @@ export function EnquiryForm({ defaultTopic = "", withList = true }: { defaultTop
       </div>
 
       <label className="flex items-center gap-3 text-[0.95rem] sm:col-span-2">
-        <input type="checkbox" name="trade" className="h-5 w-5 accent-[var(--color-charcoal)]" />
+        <input type="checkbox" name="trade" className="h-5 w-5 accent-[var(--color-brass)]" />
         I’m a trade customer (builder, roofer, landscaper, contractor)
       </label>
 

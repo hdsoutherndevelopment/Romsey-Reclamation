@@ -36,40 +36,51 @@ const reuse = [
 export default function Home() {
   return (
     <>
-      {/* HERO — sits under the transparent header */}
+      {/* HERO — showroom composition, sits under the transparent header */}
       <section aria-labelledby="hero-title" className="relative isolate -mt-[4.5rem] overflow-hidden bg-soot text-lime">
-        <div className="hero-art absolute inset-0 -z-10">
-          <Visual art={{ kind: "brick", seed: 2 }} alt="" priority />
-        </div>
-        <div className="absolute inset-0 -z-10 bg-[linear-gradient(100deg,rgba(23,21,18,.95)_0%,rgba(23,21,18,.8)_45%,rgba(23,21,18,.3)_100%)]" />
-        <div className="absolute inset-x-0 bottom-0 -z-10 h-1/2 bg-gradient-to-t from-soot to-transparent" />
+        <div className="hero-art absolute inset-0 -z-20 opacity-30 [filter:blur(3px)_saturate(.8)]"><Visual art={{ kind: "brick", seed: 2 }} alt="" priority /></div>
+        <div className="absolute inset-0 -z-10 bg-[radial-gradient(ellipse_at_72%_38%,rgba(201,160,99,.20),transparent_55%),linear-gradient(90deg,#0a0907_0%,rgba(10,9,7,.94)_42%,rgba(10,9,7,.7)_100%)]" />
+        <div className="absolute inset-x-0 bottom-0 -z-10 h-40 bg-gradient-to-t from-soot to-transparent" />
 
-        <div className="wrap flex min-h-[100svh] flex-col justify-end pb-8 pt-36">
-          <p className="hero-fade eyebrow mb-8 flex items-center gap-3 text-lime/70">
-            <span className="text-oak-light">(RR)</span><span className="h-px w-10 bg-lime/30" aria-hidden="true" />Architectural salvage · Awbridge, Hampshire
-          </p>
-          <h1 id="hero-title" className="stencil text-[clamp(4rem,12.5vw,12.5rem)]">
-            <span className="hero-line"><span>Reclaimed</span></span>
-            <span className="hero-line"><span>materials,</span></span>
-            <span className="hero-line"><span><em className="text-oak-light">built to last.</em></span></span>
-          </h1>
-
-          <div className="hero-fade mt-10 flex flex-col gap-10 lg:flex-row lg:items-end lg:justify-between">
-            <div className="max-w-xl">
-              <p className="text-lg text-lime/80 sm:text-xl">Bricks, tiles, sleepers, seasoned oak, stone and salvage with decades of work left in them — from one of the south’s great reclamation yards.</p>
-              <div className="mt-8 flex flex-wrap gap-3">
-                <Link href="/materials" className="btn btn-light">Explore materials <ArrowRight className="h-4 w-4" strokeWidth={1.75} /></Link>
-                <a href={site.phone.href} className="btn btn-ghost-light"><Phone className="h-4 w-4" strokeWidth={1.75} aria-hidden="true" />{site.phone.display}</a>
-              </div>
+        <div className="wrap grid min-h-[100svh] content-end gap-12 pb-8 pt-32 lg:grid-cols-12 lg:content-center lg:gap-8 lg:pt-28">
+          <div className="lg:col-span-7">
+            <p className="hero-fade eyebrow mb-8 flex items-center gap-3 text-lime/65">
+              <span className="text-brass">(RR)</span><span className="h-px w-10 bg-brass/50" aria-hidden="true" />Architectural salvage · Awbridge, Hampshire
+            </p>
+            <h1 id="hero-title" className="stencil text-[clamp(3.6rem,9vw,9.25rem)]">
+              <span className="hero-line"><span>Reclaimed</span></span>
+              <span className="hero-line"><span>materials,</span></span>
+              <span className="hero-line"><span><em className="text-gradient-brass pr-[.08em]">built to last.</em></span></span>
+            </h1>
+            <p className="hero-fade mt-8 max-w-lg text-lg text-lime/75 sm:text-xl">Bricks, tiles, sleepers, seasoned oak, stone and salvage with decades of work left in them — from one of the south’s great reclamation yards.</p>
+            <div className="hero-fade mt-9 flex flex-wrap gap-3">
+              <Link href="/materials" className="btn btn-solid">Explore the yard <ArrowRight className="h-4 w-4" strokeWidth={1.75} /></Link>
+              <a href={site.phone.href} className="btn btn-ghost-light"><Phone className="h-4 w-4" strokeWidth={1.75} aria-hidden="true" />{site.phone.display}</a>
             </div>
-            <Stamp className="relative hidden w-36 text-lime/80 lg:grid xl:w-44" />
           </div>
 
-          <dl className="hero-fade eyebrow mt-14 grid gap-y-4 border-t border-lime/15 pt-5 text-lime/60 md:grid-cols-4">
+          {/* Specimen collage */}
+          <div className="relative h-[min(46vh,22rem)] sm:h-[26rem] lg:col-span-5 lg:h-[min(70vh,42rem)]" aria-hidden="true">
+            {[
+              { art: { kind: "beams", seed: 2 } as const, label: "No. 014 — Seasoned oak, end grain", cls: "right-0 top-0 w-[58%] lg:w-[62%]", aspect: "aspect-[3/4]", d: "0.75s", f: "0s" },
+              { art: { kind: "brick", seed: 3 } as const, label: "No. 002 — Reclaimed red stock", cls: "left-0 top-[22%] w-[44%] lg:top-[24%] lg:w-[46%]", aspect: "aspect-square", d: "0.9s", f: "-3s" },
+              { art: { kind: "tile", seed: 1 } as const, label: "No. 031 — Handmade clay tile", cls: "bottom-0 right-[2%] w-[42%] lg:w-[44%]", aspect: "aspect-[4/3]", d: "1.05s", f: "-6s" },
+            ].map((c) => (
+              <div key={c.label} className={`hero-card absolute ${c.cls}`} style={{ animationDelay: c.d }}>
+                <figure className="hero-float" style={{ animationDelay: c.f }}>
+                  <div className={`frame overflow-hidden bg-oak-dark shadow-[0_40px_80px_-30px_rgba(0,0,0,.9)] ${c.aspect}`}><Visual art={c.art} alt="" priority /></div>
+                  <figcaption className="eyebrow mt-2.5 hidden text-lime/55 sm:block">{c.label}</figcaption>
+                </figure>
+              </div>
+            ))}
+            <Stamp className="absolute bottom-[3%] left-[6%] z-10 hidden w-28 text-brass lg:grid xl:w-32" />
+          </div>
+
+          <dl className="hero-fade eyebrow grid gap-y-4 border-t border-lime/12 pt-5 text-lime/55 md:grid-cols-4 lg:col-span-12">
             <div><dt className="sr-only">Status</dt><dd className="text-lime"><OpenStatus /></dd></div>
             <div className="hidden md:block"><dt className="sr-only">Location</dt><dd>51.00° N, 1.54° W</dd></div>
             <div className="hidden md:block"><dt className="sr-only">Hours</dt><dd>Mon–Fri 8–4 · Sat 8:15–12</dd></div>
-            <div className="hidden text-right md:block"><dt className="sr-only">Scroll</dt><dd><a href="#yard" className="inline-flex items-center gap-2 hover:text-lime">Scroll <ArrowDown className="h-3.5 w-3.5 animate-bounce" /></a></dd></div>
+            <div className="hidden text-right md:block"><dt className="sr-only">Scroll</dt><dd><a href="#yard" className="inline-flex items-center gap-2 transition-colors hover:text-brass">Scroll <ArrowDown className="h-3.5 w-3.5 animate-bounce" /></a></dd></div>
           </dl>
         </div>
       </section>
@@ -93,7 +104,7 @@ export default function Home() {
       {/* MANIFESTO + STATS */}
       <section id="yard" aria-labelledby="yard-title" className="guides scroll-mt-20 py-24 lg:py-36">
         <div className="wrap">
-          <p className="eyebrow mb-10 flex items-center gap-3 text-charcoal/60"><span className="text-brick">(01)</span><span className="h-px w-10 bg-charcoal/30" aria-hidden="true" /><span id="yard-title">The yard</span></p>
+          <p className="eyebrow mb-10 flex items-center gap-3 text-charcoal/60"><span className="text-brass">(01)</span><span className="h-px w-10 bg-charcoal/30" aria-hidden="true" /><span id="yard-title">The yard</span></p>
           <Scrub className="max-w-6xl font-display text-[clamp(2.1rem,4.6vw,4.6rem)] leading-[1.06]"
             text="For almost fifty years we’ve rescued bricks, beams, tiles and stone that still have decades of work left in them — so your next project looks like it’s always been there." />
           <div className="mt-12 flex flex-wrap items-center gap-6">
@@ -135,9 +146,9 @@ export default function Home() {
             {featured.map((f, i) => (
               <li key={f.name} className={`reveal flex flex-col ${i % 4 === 1 || i % 4 === 3 ? "lg:mt-16" : ""}`}>
                 <Link href={f.href} className="group block flex-1">
-                  <div className="img-zoom clip-reveal relative aspect-[4/5] overflow-hidden bg-oak-dark">
+                  <div className="img-zoom frame clip-reveal relative aspect-[4/5] overflow-hidden bg-oak-dark">
                     <Visual art={f.art} alt={f.name} />
-                    <span className="eyebrow absolute left-3 top-3 bg-lime/95 px-2 py-1 text-charcoal">{f.tag}</span>
+                    <span className="eyebrow absolute left-3 top-3 bg-ink/80 px-2 py-1 text-brass backdrop-blur">{f.tag}</span>
                   </div>
                   <p className="eyebrow mt-5 text-charcoal/45">No. {String(i + 1).padStart(3, "0")}</p>
                   <h3 className="mt-1 font-display text-[1.85rem] leading-tight">{f.name}</h3>
@@ -174,7 +185,7 @@ export default function Home() {
           items={projects}
           heading={<SectionHead light index="05" label="Projects" id="proj-title" className="!mb-10" title={<>Built with <em className="text-oak-light">character</em></>} intro="What customers make with reclaimed materials — from a single raised bed to a full restoration." />}
           cta={
-            <Link href="/projects" className="group flex aspect-[4/5] w-full flex-col justify-between border border-lime/20 p-6 transition-colors hover:border-lime hover:bg-lime hover:text-charcoal">
+            <Link href="/projects" className="group flex aspect-[4/5] w-full flex-col justify-between border border-lime/20 p-6 transition-colors hover:border-brass hover:bg-brass hover:text-ink">
               <span className="eyebrow">All projects</span>
               <span className="stencil text-[2.6rem]">See what people <em>build</em></span>
               <ArrowUpRight className="h-8 w-8 transition-transform duration-500 group-hover:rotate-45" strokeWidth={1.25} />
@@ -187,12 +198,12 @@ export default function Home() {
       <section aria-labelledby="calc-title" className="guides border-b border-rule py-24 lg:py-36">
         <div className="wrap grid gap-12 lg:grid-cols-12 lg:items-center">
           <div className="lg:col-span-5">
-            <p className="eyebrow mb-6 flex items-center gap-3 text-charcoal/60"><span className="text-brick">(06)</span><span className="h-px w-10 bg-charcoal/30" aria-hidden="true" />Tools</p>
+            <p className="eyebrow mb-6 flex items-center gap-3 text-charcoal/60"><span className="text-brass">(06)</span><span className="h-px w-10 bg-charcoal/30" aria-hidden="true" />Tools</p>
             <h2 id="calc-title" className="stencil text-[clamp(3rem,6.5vw,6rem)]">How much do I <em>need?</em></h2>
             <p className="mt-6 max-w-md text-lg text-charcoal/75">Sleepers for a raised bed, bricks for a wall, tiles for a roof or flagstones for a patio — estimate it, then add it straight to your enquiry.</p>
             <ul className="mt-8 flex flex-wrap gap-2">
               {["Bricks for a wall", "Plain roof tiles", "Flagstones for a patio"].map((t) => (
-                <li key={t}><Link href="/calculators" className="inline-flex items-center gap-2 rounded-full border border-charcoal/25 bg-lime px-4 py-2 text-[0.92rem] transition-colors hover:border-charcoal hover:bg-charcoal hover:text-lime">{t}<ArrowRight className="h-3.5 w-3.5" strokeWidth={1.5} /></Link></li>
+                <li key={t}><Link href="/calculators" className="inline-flex items-center gap-2 rounded-full border border-charcoal/25 bg-surface px-4 py-2 text-[0.92rem] transition-colors hover:border-charcoal hover:bg-brass hover:text-ink">{t}<ArrowRight className="h-3.5 w-3.5" strokeWidth={1.5} /></Link></li>
               ))}
             </ul>
           </div>
@@ -205,7 +216,7 @@ export default function Home() {
         <SectionHead index="07" label="Process" id="how-title" title={<>How it <em>works</em></>} />
         <ol className="grid gap-px bg-rule md:grid-cols-3">
           {steps.map((s, i) => (
-            <li key={s.title} className="reveal group bg-plaster p-8 transition-colors duration-500 hover:bg-charcoal hover:text-lime lg:p-10">
+            <li key={s.title} className="reveal group bg-plaster p-8 transition-colors duration-500 hover:bg-brass hover:text-ink lg:p-10">
               <div className="flex items-start justify-between">
                 <span className="font-display text-[5rem] leading-none text-charcoal/15 transition-colors group-hover:text-oak-light">0{i + 1}</span>
                 <s.icon className="h-7 w-7 text-oak transition-colors group-hover:text-oak-light" strokeWidth={1.4} aria-hidden="true" />
@@ -221,7 +232,7 @@ export default function Home() {
       <section aria-labelledby="reuse-title" className="border-t border-rule bg-plaster-deep py-24 lg:py-36">
         <div className="wrap grid gap-16 lg:grid-cols-12">
           <div className="lg:col-span-5">
-            <p className="eyebrow mb-6 flex items-center gap-3 text-charcoal/60"><span className="text-brick">(08)</span><span className="h-px w-10 bg-charcoal/30" aria-hidden="true" />Why reclaimed</p>
+            <p className="eyebrow mb-6 flex items-center gap-3 text-charcoal/60"><span className="text-brass">(08)</span><span className="h-px w-10 bg-charcoal/30" aria-hidden="true" />Why reclaimed</p>
             <h2 id="reuse-title" className="stencil text-[clamp(3rem,6.5vw,6rem)]">The beauty of <em>reuse</em></h2>
             <p className="mt-6 max-w-md text-lg text-charcoal/75">A reclaimed brick, tile or beam has already been made. Putting it back to work is the simplest kind of recycling there is.</p>
           </div>

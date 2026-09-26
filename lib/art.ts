@@ -34,20 +34,76 @@ function shade(hex: string, r: R, amt = 0.08) {
   return "#" + ch.map((v) => v.toString(16).padStart(2, "0")).join("");
 }
 
-function defs(seed: number, grainFreq = 0.85) {
+// pit/mottle are feTurbulence frequencies ("x y" stretches the texture, e.g. wood grain); wear = edge chipping in px.
+type Relief = { bevel: number; depth: number; pit: string; mottle: string; rough: number; wear: number; cast: number };
+
+function defs(seed: number, grainFreq = 0.85, relief: Relief = RELIEF.default) {
   return `<defs>
 <filter id="g" x="0" y="0" width="100%" height="100%"><feTurbulence type="fractalNoise" baseFrequency="${grainFreq}" numOctaves="2" seed="${seed}" stitchTiles="stitch"/><feColorMatrix type="saturate" values="0"/></filter>
 <filter id="b" x="0" y="0" width="100%" height="100%"><feTurbulence type="fractalNoise" baseFrequency="0.006" numOctaves="3" seed="${seed + 7}"/><feColorMatrix type="saturate" values="0"/><feComponentTransfer><feFuncR type="linear" slope="2" intercept="-0.45"/><feFuncG type="linear" slope="2" intercept="-0.45"/><feFuncB type="linear" slope="2" intercept="-0.45"/></feComponentTransfer></filter>
 <linearGradient id="l" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#fff" stop-opacity=".16"/><stop offset=".5" stop-color="#000" stop-opacity="0"/><stop offset="1" stop-color="#000" stop-opacity=".38"/></linearGradient>
 <linearGradient id="cyl" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#000" stop-opacity=".25"/><stop offset=".3" stop-color="#fff" stop-opacity=".18"/><stop offset=".65" stop-color="#000" stop-opacity=".05"/><stop offset="1" stop-color="#000" stop-opacity=".45"/></linearGradient>
 <radialGradient id="glow" cx=".5" cy="1" r=".7"><stop offset="0" stop-color="#e8893a" stop-opacity=".55"/><stop offset="1" stop-color="#e8893a" stop-opacity="0"/></radialGradient>
+<filter id="relief" x="0" y="0" width="100%" height="100%" color-interpolation-filters="sRGB">
+  <feTurbulence type="fractalNoise" baseFrequency="0.035" numOctaves="3" seed="${seed + 11}" result="warp"/>
+  <feDisplacementMap in="SourceGraphic" in2="warp" scale="${relief.wear}" xChannelSelector="R" yChannelSelector="G" result="src"/>
+  <feColorMatrix in="src" type="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 1 0" result="srcA"/>
+  <feTurbulence type="fractalNoise" baseFrequency="${relief.pit}" numOctaves="4" seed="${seed + 3}" result="pit"/>
+  <feTurbulence type="fractalNoise" baseFrequency="${relief.mottle}" numOctaves="2" seed="${seed + 5}" result="mot"/>
+  <feComposite in="pit" in2="mot" operator="arithmetic" k2="${relief.rough}" k3="${relief.rough * 0.8}" result="tex"/>
+  <feColorMatrix in="tex" type="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  1 0 0 0 0" result="texA"/>
+  <feGaussianBlur in="srcA" stdDeviation="${relief.bevel}" result="bev"/>
+  <feComposite in="bev" in2="texA" operator="arithmetic" k2="1" k3="1" result="height"/>
+  <feDiffuseLighting in="height" surfaceScale="${relief.depth}" diffuseConstant="1.3" lighting-color="#fff1dc" result="diff"><feDistantLight azimuth="225" elevation="42"/></feDiffuseLighting>
+  <feSpecularLighting in="height" surfaceScale="${relief.depth}" specularConstant=".55" specularExponent="18" lighting-color="#ffe6c0" result="spec"><feDistantLight azimuth="225" elevation="42"/></feSpecularLighting>
+  <feComposite in="src" in2="diff" operator="arithmetic" k1="1.15" result="lit"/>
+  <feComposite in="spec" in2="srcA" operator="in" result="specIn"/>
+  <feComposite in="lit" in2="specIn" operator="arithmetic" k2="1" k3=".5" result="shaded"/>
+  <feComposite in="shaded" in2="srcA" operator="in" result="unit"/>
+  <feGaussianBlur in="srcA" stdDeviation="${relief.bevel * 1.8}" result="sh"/>
+  <feOffset in="sh" dx="${relief.cast}" dy="${relief.cast * 1.4}" result="shO"/>
+  <feColorMatrix in="shO" type="matrix" values="0 0 0 0 .04  0 0 0 0 .03  0 0 0 0 .02  0 0 0 .85 0" result="shadow"/>
+  <feMerge><feMergeNode in="shadow"/><feMergeNode in="unit"/></feMerge>
+</filter>
+<radialGradient id="vig" cx=".45" cy=".42" r=".78"><stop offset=".55" stop-color="#0b0906" stop-opacity="0"/><stop offset="1" stop-color="#0b0906" stop-opacity=".62"/></radialGradient>
+<radialGradient id="key" cx=".18" cy=".08" r=".85"><stop offset="0" stop-color="#ffd9a0" stop-opacity=".22"/><stop offset=".6" stop-color="#ffd9a0" stop-opacity="0"/></radialGradient>
 </defs>`;
 }
 
+const SPLIT = "<!--finish-->";
 function finish(grain = 0.3, blotch = 0.3) {
-  return `<rect width="${W}" height="${H}" filter="url(#b)" opacity="${blotch}" style="mix-blend-mode:multiply"/>
+  return `${SPLIT}<rect width="${W}" height="${H}" filter="url(#b)" opacity="${blotch}" style="mix-blend-mode:multiply"/>
 <rect width="${W}" height="${H}" filter="url(#g)" opacity="${grain}" style="mix-blend-mode:multiply"/>
-<rect width="${W}" height="${H}" fill="url(#l)"/>`;
+<rect width="${W}" height="${H}" fill="url(#l)"/>
+<rect width="${W}" height="${H}" fill="url(#key)" style="mix-blend-mode:screen"/>
+<rect width="${W}" height="${H}" fill="url(#vig)"/>`;
+}
+
+// Lighting profile per material: bevel = edge roundness, depth = relief height, pit = surface texture scale, rough = pitting amount, cast = shadow offset.
+const RELIEF: Record<string, Relief> = {
+  default: { bevel: 2.4, depth: 6, pit: "0.3", mottle: "0.03", rough: 0.3, wear: 4, cast: 3 },
+  brick: { bevel: 2, depth: 7, pit: "0.28", mottle: "0.04", rough: 0.42, wear: 6, cast: 3 },
+  stone: { bevel: 4.5, depth: 8, pit: "0.16", mottle: "0.02", rough: 0.5, wear: 6, cast: 5 },
+  timber: { bevel: 2.4, depth: 6, pit: "0.012 0.32", mottle: "0.004 0.06", rough: 0.45, wear: 3, cast: 3 },
+  endgrain: { bevel: 3, depth: 5, pit: "0.35", mottle: "0.03", rough: 0.3, wear: 7, cast: 4 },
+  roof: { bevel: 2.2, depth: 6.5, pit: "0.25", mottle: "0.03", rough: 0.4, wear: 5, cast: 4 },
+  object: { bevel: 3.5, depth: 5, pit: "0.4", mottle: "0.02", rough: 0.18, wear: 1.5, cast: 5 },
+};
+const RELIEF_FOR: Partial<Record<string, keyof typeof RELIEF>> = {
+  brick: "brick", stock: "brick", quarry: "brick", door: "object", fireplace: "brick", radiator: "object",
+  flagstone: "stone", setts: "stone", walling: "stone",
+  sleeper: "timber", beams: "endgrain", boards: "timber", scaffold: "timber", poles: "endgrain",
+  tile: "roof", slate: "roof",
+};
+
+/* Lift everything after the full-canvas background into the relief group so each unit (brick, tile, stone, board) is lit
+   and casts a shadow into the joints. Scenes with painted skies (gate, chimney) keep their flat look. */
+function lightUp(body: string, kind: string) {
+  if (!RELIEF_FOR[kind]) return body;
+  const [main, rest = ""] = body.split(SPLIT);
+  const m = /^(<rect (?:x="0" y="0" )?width="1200" height="900"[^>]*\/>)/.exec(main);
+  if (!m) return body;
+  return `${m[1]}<g filter="url(#relief)">${main.slice(m[1].length)}</g>${rest}`;
 }
 
 // ---------- building blocks ----------
@@ -441,7 +497,8 @@ export function renderArt(kind: ArtKind, seed: number): string {
     poles: () => poles(r),
   };
   const grainFreq = kind === "setts" ? 1.3 : 0.85;
-  return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${W} ${H}" preserveAspectRatio="xMidYMid slice">${defs(seed, grainFreq)}${body[kind]()}</svg>`;
+  const relief = RELIEF[RELIEF_FOR[kind] ?? "default"];
+  return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${W} ${H}" preserveAspectRatio="xMidYMid slice">${defs(seed, grainFreq, relief)}${lightUp(body[kind](), kind)}</svg>`;
 }
 
 export function parseArtName(name: string): { kind: ArtKind; seed: number } | null {

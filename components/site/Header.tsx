@@ -52,7 +52,7 @@ export function Header() {
                 l.href === "/materials" ? (
                   <li key={l.href} ref={megaRef} onMouseEnter={() => setMega(true)} onMouseLeave={() => setMega(false)} className="flex h-[4.5rem] items-center">
                     <button type="button" onClick={() => setMega((m) => !m)} aria-expanded={mega} aria-controls="mega-menu"
-                      className={`link-u inline-flex items-center gap-1 font-medium ${isActive(l.href) ? "bg-[length:100%_1px]" : ""}`}>
+                      className={`link-u inline-flex items-center gap-1 font-medium transition-colors hover:text-brass ${isActive(l.href) ? "bg-[length:100%_1px] text-brass" : ""}`}>
                       {l.label}<ChevronDown className={`h-3.5 w-3.5 transition-transform ${mega ? "rotate-180" : ""}`} strokeWidth={2} aria-hidden="true" />
                     </button>
                     {mega && (
@@ -63,7 +63,7 @@ export function Header() {
                               {categories.map((c) => (
                                 <li key={c.slug}>
                                   <Link href={`/${c.slug}`} className="group block">
-                                    <div className="img-zoom aspect-[4/3] overflow-hidden bg-oak-dark"><Visual art={c.hero} alt="" /></div>
+                                    <div className="img-zoom frame aspect-[4/3] overflow-hidden bg-oak-dark"><Visual art={c.hero} alt="" /></div>
                                     <span className="mt-3 flex items-baseline gap-2 font-semibold group-hover:text-oak"><span className="eyebrow text-charcoal/40">{String(categories.indexOf(c) + 1).padStart(2, "0")}</span>{c.menuTitle}</span>
                                   </Link>
                                 </li>
@@ -83,7 +83,7 @@ export function Header() {
                   </li>
                 ) : (
                   <li key={l.href}>
-                    <Link href={l.href} aria-current={isActive(l.href) ? "page" : undefined} className={`link-u font-medium ${isActive(l.href) ? "bg-[length:100%_1px]" : ""}`}>{l.label}</Link>
+                    <Link href={l.href} aria-current={isActive(l.href) ? "page" : undefined} className={`link-u font-medium transition-colors hover:text-brass ${isActive(l.href) ? "bg-[length:100%_1px] text-brass" : ""}`}>{l.label}</Link>
                   </li>
                 ),
               )}
@@ -98,7 +98,7 @@ export function Header() {
             </button>
           </div>
         </div>
-        <div aria-hidden="true" className="scroll-progress absolute inset-x-0 bottom-[-1px] h-[2px] bg-brick" />
+        <div aria-hidden="true" className="scroll-progress absolute inset-x-0 bottom-[-1px] h-[2px] bg-gradient-to-r from-brass/40 via-brass to-brass-bright" />
       </header>
 
       <div

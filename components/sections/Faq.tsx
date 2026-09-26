@@ -25,7 +25,7 @@ export function Faq() {
     <section aria-labelledby="faq-title" className="wrap py-24 lg:py-36">
       <div className="grid gap-10 lg:grid-cols-12">
         <div className="lg:col-span-4">
-          <p className="eyebrow mb-6 flex items-center gap-3 text-charcoal/60"><span className="text-brick">(?)</span><span className="h-px w-10 bg-charcoal/30" aria-hidden="true" />Questions</p>
+          <p className="eyebrow mb-6 flex items-center gap-3 text-charcoal/60"><span className="text-brass">(?)</span><span className="h-px w-10 bg-charcoal/30" aria-hidden="true" />Questions</p>
           <h2 id="faq-title" className="stencil text-[clamp(3rem,6.5vw,6rem)]">Good to <em>know</em></h2>
           <p className="mt-6 max-w-sm text-charcoal/75">Anything else? Call the yard on <a className="link-u font-semibold text-charcoal" href={site.phone.href}>{site.phone.display}</a>.</p>
         </div>
@@ -34,7 +34,7 @@ export function Faq() {
             <details key={q} className="group border-b border-rule">
               <summary className="flex cursor-pointer list-none items-center justify-between gap-6 py-6 font-display text-[1.6rem] leading-tight transition-colors hover:text-oak [&::-webkit-details-marker]:hidden">
                 {q}
-                <span className="grid h-10 w-10 shrink-0 place-items-center rounded-full border border-charcoal/25 transition-colors duration-300 group-open:border-charcoal group-open:bg-charcoal group-open:text-lime"><Plus className="h-4 w-4 transition-transform duration-500 group-open:rotate-45" strokeWidth={1.5} aria-hidden="true" /></span>
+                <span className="grid h-10 w-10 shrink-0 place-items-center rounded-full border border-charcoal/25 transition-colors duration-300 group-open:border-charcoal group-open:bg-brass group-open:text-ink"><Plus className="h-4 w-4 transition-transform duration-500 group-open:rotate-45" strokeWidth={1.5} aria-hidden="true" /></span>
               </summary>
               <p className="max-w-2xl pb-7 text-lg text-charcoal/75">{a}</p>
             </details>

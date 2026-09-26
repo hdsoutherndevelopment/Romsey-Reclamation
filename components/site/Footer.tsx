@@ -18,7 +18,7 @@ export function Footer() {
   ];
   const col = "eyebrow mb-5 text-lime/45";
   return (
-    <footer className="relative overflow-hidden bg-soot pb-20 text-lime/75 sm:pb-0" style={{ ["--logo-bg" as string]: "#171512" }}>
+    <footer className="relative overflow-hidden bg-soot pb-20 text-lime/75 sm:pb-0" style={{ ["--logo-bg" as string]: "#0a0907" }}>
       {/* Closing call to action */}
       <div className="wrap grid gap-10 border-b border-lime/10 py-24 lg:grid-cols-12 lg:items-end lg:py-32">
         <div className="lg:col-span-8">

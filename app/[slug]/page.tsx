@@ -160,7 +160,7 @@ export default async function CategoryPage({ params }: { params: Promise<{ slug:
           {related.map((r) => (
             <li key={r.slug} className="reveal">
               <Link href={`/${r.slug}`} className="group block">
-                <div className="img-zoom clip-reveal aspect-[4/3] overflow-hidden bg-oak-dark"><Visual art={r.hero} alt={r.title} /></div>
+                <div className="img-zoom frame clip-reveal aspect-[4/3] overflow-hidden bg-oak-dark"><Visual art={r.hero} alt={r.title} /></div>
                 <h3 className="mt-5 font-display text-[1.9rem] leading-tight">{r.title}</h3>
                 <p className="mt-1 text-charcoal/75">{r.short}</p>
                 <span className="link-u mt-2 inline-block text-[0.95rem] font-semibold">View Material →</span>

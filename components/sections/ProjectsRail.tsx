@@ -29,7 +29,7 @@ export function ProjectsRail({ items, heading, cta }: { items: typeof P; heading
         <ul ref={ref} className="hs-track no-scrollbar flex snap-x snap-mandatory gap-6 overflow-x-auto pb-2 lg:gap-10" style={{ paddingInline: gutter, scrollPaddingInline: gutter }}>
           {items.map((p, i) => (
             <li key={p.title} className="group w-[82vw] shrink-0 snap-start sm:w-[24rem] lg:w-[clamp(18rem,34vh,28rem)]">
-              <div className="img-zoom relative aspect-[4/5] overflow-hidden bg-oak-dark">
+              <div className="img-zoom frame relative aspect-[4/5] overflow-hidden bg-oak-dark">
                 <Visual art={p.art} alt={`${p.title} — reclaimed materials`} />
                 <span className="eyebrow absolute left-4 top-4 bg-soot/70 px-2 py-1 text-lime backdrop-blur">No. {String(i + 1).padStart(2, "0")}</span>
               </div>

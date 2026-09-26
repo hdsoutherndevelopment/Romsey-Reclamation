@@ -7,7 +7,7 @@ export function VisitYard({ heading = "Visit the yard" }: { heading?: string }) 
     <section id="visit" aria-labelledby="visit-title" className="scroll-mt-24 border-t border-rule">
       <div className="wrap grid gap-12 py-24 lg:grid-cols-12 lg:py-36">
         <div className="lg:col-span-5">
-          <p className="eyebrow mb-6 flex items-center gap-3 text-charcoal/60"><span className="text-brick">(→)</span><span className="h-px w-10 bg-charcoal/30" aria-hidden="true" />Oak Tree Farm · SO51 0GQ</p>
+          <p className="eyebrow mb-6 flex items-center gap-3 text-charcoal/60"><span className="text-brass">(→)</span><span className="h-px w-10 bg-charcoal/30" aria-hidden="true" />Oak Tree Farm · SO51 0GQ</p>
           <h2 id="visit-title" className="stencil text-[clamp(3rem,6.5vw,6rem)]">{heading.split(" ").slice(0, -1).join(" ")} <em>{heading.split(" ").slice(-1)}</em></h2>
           <p className="mt-6 max-w-md text-lg">
             The yard is set on a large site that’s easy to explore. Come and walk the stacks — seeing stock in person is the best way to choose.
@@ -52,7 +52,7 @@ export function VisitYard({ heading = "Visit the yard" }: { heading?: string }) 
           <iframe
             title="Map showing Romsey Reclamation at Oak Tree Farm, Dunbridge Lane, Awbridge"
             src={site.mapEmbedUrl}
-            className="absolute inset-0 h-full w-full [filter:grayscale(1)_sepia(.25)_contrast(1.05)] transition-[filter] duration-700 hover:[filter:none]"
+            className="absolute inset-0 h-full w-full [filter:grayscale(1)_invert(.92)_sepia(.35)_contrast(.95)_brightness(.9)]"
             loading="lazy"
             referrerPolicy="no-referrer-when-downgrade"
           />

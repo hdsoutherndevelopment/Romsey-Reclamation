@@ -26,7 +26,7 @@ export default function Materials() {
           {categories.map((c) => (
             <li key={c.slug}>
               <Link href={`/${c.slug}`} className="group block">
-                <div className="img-zoom aspect-[4/3] overflow-hidden bg-oak-dark"><Visual art={c.hero} alt={c.title} /></div>
+                <div className="img-zoom frame aspect-[4/3] overflow-hidden bg-oak-dark"><Visual art={c.hero} alt={c.title} /></div>
                 <h2 className="stencil mt-4 border-b border-rule pb-3 text-[2rem]">{c.title}</h2>
                 <p className="mt-3 text-charcoal/75">{c.short}</p>
               </Link>

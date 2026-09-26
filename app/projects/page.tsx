@@ -35,7 +35,7 @@ export default function Projects() {
           ))}
         </ul>
       </section>
-      <section className="bg-charcoal text-lime">
+      <section className="bg-soot text-lime">
         <div className="wrap flex flex-col gap-6 py-14 md:flex-row md:items-center md:justify-between">
           <p className="max-w-xl font-display text-3xl leading-tight">Built something with materials from the yard? We’d love to see it.</p>
           <Link href="/contact?material=other#enquire" className="btn btn-light">Send us your project</Link>

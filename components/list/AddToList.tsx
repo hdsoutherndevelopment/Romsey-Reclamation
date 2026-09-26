@@ -8,8 +8,8 @@ export function AddToList({ name, category, qty, light = false, className = "" }
   const id = itemId(category, name);
   const added = list.some((x) => x.id === id);
   const tone = light
-    ? added ? "border-lime bg-lime text-charcoal" : "border-lime/40 text-lime hover:border-lime"
-    : added ? "border-moss bg-moss text-lime" : "border-rule hover:border-charcoal";
+    ? added ? "border-brass bg-brass text-ink" : "border-lime/40 text-lime hover:border-brass"
+    : added ? "border-brass bg-brass text-ink" : "border-charcoal/25 hover:border-brass hover:text-brass";
   return (
     <button
       type="button"
