@@ -43,11 +43,11 @@ export function Calculator({ kind, compact = false }: { kind: CalcKey; compact?:
   const sizeLabel = SLEEPER_LENGTHS.find((s) => s.id === size)?.label;
 
   return (
-    <div className={`border border-charcoal/80 bg-plaster ${compact ? "p-6" : "p-6 sm:p-8"}`}>
+    <div className={`border border-charcoal/10 bg-lime shadow-[0_40px_80px_-50px_rgba(23,21,18,.55)] ${compact ? "p-6 sm:p-8" : "p-6 sm:p-10"}`}>
       <div className="flex items-start justify-between gap-4">
         <div>
-          <p className="flex items-center gap-2 text-sm font-semibold text-oak"><CalcIcon className="h-4 w-4" strokeWidth={1.75} aria-hidden="true" />Quantity calculator</p>
-          <h3 className="mt-2 font-display text-[1.9rem] leading-tight">{m.title}</h3>
+          <p className="eyebrow flex items-center gap-2 text-oak"><CalcIcon className="h-4 w-4" strokeWidth={1.75} aria-hidden="true" />Quantity calculator</p>
+          <h3 className="mt-3 font-display text-[2.2rem] leading-tight">{m.title}</h3>
           <p className="mt-2 max-w-md text-[0.95rem] text-charcoal/75">{m.blurb}</p>
         </div>
       </div>
@@ -84,7 +84,7 @@ export function Calculator({ kind, compact = false }: { kind: CalcKey; compact?:
         {est ? (
           <>
             <p className="flex flex-wrap items-baseline gap-x-3">
-              <span className="stencil text-[3.2rem]">{est.qty.toLocaleString("en-GB")}</span>
+              <span className="font-display text-[4.5rem] leading-none">{est.qty.toLocaleString("en-GB")}</span>
               <span className="text-lg font-semibold">{est.unit}</span>
             </p>
             <p className="mt-1 text-[0.95rem] text-charcoal/75">{est.detail}</p>

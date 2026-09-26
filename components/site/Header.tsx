@@ -38,30 +38,33 @@ export function Header() {
   const isActive = (href: string) =>
     pathname === href || (href !== "/" && pathname.startsWith(href + "/")) || (href === "/materials" && categories.some((c) => pathname === `/${c.slug}`));
 
+  // On the home page the header floats transparently over the dark hero until you scroll.
+  const overlay = pathname === "/" && !scrolled && !mega;
+
   return (
     <>
-      <header className={`sticky top-0 z-40 border-b bg-plaster/95 backdrop-blur transition-[border-color,box-shadow] duration-300 supports-[backdrop-filter]:bg-plaster/85 ${scrolled ? "border-rule shadow-[0_8px_30px_-20px_rgba(27,25,22,.45)]" : "border-transparent"}`}>
+      <header className={`sticky top-0 z-40 border-b transition-[background-color,border-color,box-shadow,color] duration-500 ${overlay ? "border-lime/15 bg-transparent text-lime" : "border-rule bg-plaster/90 text-charcoal backdrop-blur-md"} ${scrolled ? "shadow-[0_10px_40px_-24px_rgba(23,21,18,.5)]" : ""}`}>
         <div className="wrap flex h-[4.5rem] items-center justify-between gap-6">
-          <Logo />
+          <Logo light={overlay} />
           <nav aria-label="Main" className="hidden lg:block">
             <ul className="flex items-center gap-5 text-[0.93rem] xl:gap-7">
               {nav.map((l) =>
                 l.href === "/materials" ? (
                   <li key={l.href} ref={megaRef} onMouseEnter={() => setMega(true)} onMouseLeave={() => setMega(false)} className="flex h-[4.5rem] items-center">
                     <button type="button" onClick={() => setMega((m) => !m)} aria-expanded={mega} aria-controls="mega-menu"
-                      className={`link-u inline-flex items-center gap-1 ${isActive(l.href) ? "bg-[length:100%_1px]" : ""}`}>
+                      className={`link-u inline-flex items-center gap-1 font-medium ${isActive(l.href) ? "bg-[length:100%_1px]" : ""}`}>
                       {l.label}<ChevronDown className={`h-3.5 w-3.5 transition-transform ${mega ? "rotate-180" : ""}`} strokeWidth={2} aria-hidden="true" />
                     </button>
                     {mega && (
                       <div id="mega-menu" className="mega-in absolute inset-x-0 top-full">
-                        <div className="border-b border-rule bg-plaster shadow-[0_30px_60px_-30px_rgba(27,25,22,.5)]">
+                        <div className="border-b border-rule bg-plaster text-charcoal shadow-[0_30px_60px_-30px_rgba(27,25,22,.5)]">
                           <div className="wrap grid gap-10 py-10 lg:grid-cols-12">
                             <ul className="grid grid-cols-2 gap-x-6 gap-y-5 lg:col-span-9 xl:grid-cols-5">
                               {categories.map((c) => (
                                 <li key={c.slug}>
                                   <Link href={`/${c.slug}`} className="group block">
                                     <div className="img-zoom aspect-[4/3] overflow-hidden bg-oak-dark"><Visual art={c.hero} alt="" /></div>
-                                    <span className="mt-2 block font-semibold group-hover:text-oak">{c.menuTitle}</span>
+                                    <span className="mt-3 flex items-baseline gap-2 font-semibold group-hover:text-oak"><span className="eyebrow text-charcoal/40">{String(categories.indexOf(c) + 1).padStart(2, "0")}</span>{c.menuTitle}</span>
                                   </Link>
                                 </li>
                               ))}
@@ -80,7 +83,7 @@ export function Header() {
                   </li>
                 ) : (
                   <li key={l.href}>
-                    <Link href={l.href} aria-current={isActive(l.href) ? "page" : undefined} className={`link-u ${isActive(l.href) ? "bg-[length:100%_1px]" : ""}`}>{l.label}</Link>
+                    <Link href={l.href} aria-current={isActive(l.href) ? "page" : undefined} className={`link-u font-medium ${isActive(l.href) ? "bg-[length:100%_1px]" : ""}`}>{l.label}</Link>
                   </li>
                 ),
               )}
@@ -89,12 +92,13 @@ export function Header() {
           <div className="flex items-center gap-1 sm:gap-2">
             <a href={site.phone.href} className="hidden items-center gap-2 px-2 text-[0.93rem] font-semibold 2xl:inline-flex"><Phone className="h-4 w-4" strokeWidth={1.75} aria-hidden="true" />{site.phone.display}</a>
             <ListBadge />
-            <Link href="/contact#visit" className="btn btn-solid ml-1 hidden sm:inline-flex">Visit the Yard</Link>
+            <Link href="/contact#visit" className={`btn ml-1 hidden min-h-11 py-2 sm:inline-flex ${overlay ? "btn-light" : "btn-solid"}`}>Visit the Yard <ArrowRight className="h-4 w-4" strokeWidth={1.75} /></Link>
             <button type="button" onClick={() => setOpen(true)} className="grid h-11 w-11 place-items-center lg:hidden" aria-label="Open menu" aria-expanded={open} aria-controls="mobile-menu">
               <Menu className="h-6 w-6" strokeWidth={1.5} />
             </button>
           </div>
         </div>
+        <div aria-hidden="true" className="scroll-progress absolute inset-x-0 bottom-[-1px] h-[2px] bg-brick" />
       </header>
 
       <div
@@ -115,9 +119,9 @@ export function Header() {
           <ul className="space-y-1">
             {[{ label: "Home", href: "/" }, ...nav].map((l, i) => (
               <li key={l.href} style={{ transitionDelay: open ? `${60 + i * 35}ms` : "0ms" }} className={`transition-[transform,opacity] duration-500 ${open ? "translate-y-0 opacity-100" : "translate-y-3 opacity-0"}`}>
-                <Link href={l.href} className="block py-1.5 font-display text-[2.1rem] leading-tight sm:text-5xl">{l.label}</Link>
+                <Link href={l.href} className="flex items-baseline gap-4 py-2"><span className="eyebrow w-6 text-lime/40">{String(i).padStart(2, "0")}</span><span className="stencil text-[2.6rem] sm:text-6xl">{l.label}</span></Link>
                 {l.href === "/materials" && (
-                  <ul className="mb-3 mt-1 flex flex-wrap gap-2">
+                  <ul className="mb-4 ml-10 mt-2 flex flex-wrap gap-2">
                     {categories.map((c) => <li key={c.slug}><Link href={`/${c.slug}`} className="block border border-lime/20 px-3 py-1.5 text-sm text-lime/85">{c.menuTitle}</Link></li>)}
                   </ul>
                 )}

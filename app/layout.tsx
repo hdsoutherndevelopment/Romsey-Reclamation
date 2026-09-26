@@ -1,6 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import "./globals.css";
-import { archivo, caslon } from "@/lib/fonts";
+import { archivo, serif, mono } from "@/lib/fonts";
 import { site } from "@/lib/config";
 import { localBusinessSchema } from "@/lib/schema";
 import { AnnouncementBar } from "@/components/site/AnnouncementBar";
@@ -22,7 +22,7 @@ export const viewport: Viewport = { themeColor: "#eee8dc" };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en-GB" className={`${archivo.variable} ${caslon.variable}`}>
+    <html lang="en-GB" className={`${archivo.variable} ${serif.variable} ${mono.variable}`}>
       <body>
         <a href="#main" className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[60] focus:bg-charcoal focus:px-4 focus:py-2 focus:text-lime">Skip to content</a>
         <AnnouncementBar />
