@@ -9,6 +9,8 @@ export function Footer() {
     { label: "Projects", href: "/projects" },
     { label: "Gallery", href: "/gallery" },
     { label: "Delivery", href: "/delivery" },
+    { label: "Calculators", href: "/calculators" },
+    { label: "Sell to us", href: "/sell" },
     { label: "All products", href: "/materials" },
     { label: "Contact", href: "/contact" },
   ];

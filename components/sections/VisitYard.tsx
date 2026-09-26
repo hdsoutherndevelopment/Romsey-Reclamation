@@ -1,5 +1,6 @@
 import { ArrowUpRight, Phone } from "lucide-react";
 import { site } from "@/lib/config";
+import { OpenStatus } from "@/components/OpenStatus";
 
 export function VisitYard({ heading = "Visit the yard" }: { heading?: string }) {
   return (
@@ -28,7 +29,7 @@ export function VisitYard({ heading = "Visit the yard" }: { heading?: string }) 
               </p>
             </div>
             <div className="sm:col-span-2 lg:col-span-1 xl:col-span-2">
-              <h3 className="mb-2 text-sm font-semibold text-oak">Opening hours</h3>
+              <h3 className="mb-2 flex flex-wrap items-center justify-between gap-2 text-sm font-semibold text-oak max-w-sm">Opening hours <OpenStatus className="font-semibold text-charcoal" /></h3>
               <dl className="max-w-sm">
                 {site.hours.map((h) => (
                   <div key={h.days} className="flex justify-between gap-6 border-b border-rule py-2">

@@ -16,7 +16,7 @@ const services = [
   { title: "Oak & timber services", body: "Seasoned beams, slabs and boards from the Oak Centre, with help sizing and sourcing timber for your project.", href: "/oak" },
   { title: "Projects & outbuildings", body: "Materials for outbuildings, large sheds and garden structures — talk to us about what you’re planning.", href: "/projects" },
   { title: "Delivery", body: "We deliver full and part loads within our area for orders of sufficient quantity.", href: "/delivery" },
-  { title: "We buy salvage", body: "Clearing a site or a building? We buy reclaimed materials and architectural salvage.", href: "/contact?material=selling#enquire" },
+  { title: "We buy salvage", body: "Clearing a site or a building? We buy reclaimed materials and architectural salvage.", href: "/sell" },
 ];
 
 export default function About() {

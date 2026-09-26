@@ -13,11 +13,11 @@ export default function Privacy() {
         <div className="prose-rr max-w-2xl text-lg [&_h2]:mt-10 [&_h2]:font-display [&_h2]:text-3xl">
           <p>{site.legalName} (company no. {site.company.number}) is responsible for personal information collected through this website.</p>
           <h2>What we collect</h2>
-          <p>When you send an enquiry we receive your name, contact details and message. We use them only to reply to you and deal with your order or enquiry.</p>
+          <p>When you send an enquiry we receive your name, contact details, postcode, message and any photos you attach. The list of materials you add to your enquiry list is kept in your own browser until you send it. We use them only to reply to you and deal with your order or enquiry.</p>
           <h2>How long we keep it</h2>
           <p>We keep enquiry details for as long as needed to handle your enquiry and any resulting order, and to meet our legal and accounting obligations.</p>
           <h2>Sharing</h2>
-          <p>We don’t sell your information. Our email and website hosting providers process it on our behalf. The map on this site is provided by Google and is subject to Google’s privacy policy.</p>
+          <p>We don’t sell your information. Our email (Resend), database (Supabase) and website hosting (Vercel) providers process it on our behalf. The map on this site is provided by Google and is subject to Google’s privacy policy.</p>
           <h2>Your rights</h2>
           <p>You can ask to see, correct or delete the information we hold about you by emailing <a className="link-u" href={`mailto:${site.email}`}>{site.email}</a> or calling {site.phone.display}. You can also complain to the Information Commissioner’s Office (ico.org.uk).</p>
         </div>

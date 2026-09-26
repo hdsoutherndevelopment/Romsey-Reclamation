@@ -5,6 +5,9 @@ import { Phone } from "lucide-react";
 import { Breadcrumb } from "@/components/Breadcrumb";
 import { Visual } from "@/components/Visual";
 import { VisitYard } from "@/components/sections/VisitYard";
+import { Calculator } from "@/components/Calculator";
+import { AddToList } from "@/components/list/AddToList";
+import { calcFor } from "@/lib/calculators";
 import { categories, getCategory } from "@/lib/materials";
 import { site } from "@/lib/config";
 
@@ -30,6 +33,7 @@ export default async function CategoryPage({ params }: { params: Promise<{ slug:
   const { slug } = await params;
   const c = getCategory(slug);
   if (!c) notFound();
+  const calc = calcFor(c.slug);
   const related = c.related.map(getCategory).filter((x): x is NonNullable<typeof x> => !!x);
 
   return (
@@ -41,7 +45,7 @@ export default async function CategoryPage({ params }: { params: Promise<{ slug:
       </section>
 
       <div className="wrap mt-10">
-        <div className="aspect-[4/3] overflow-hidden bg-oak-dark md:aspect-[21/9]">
+        <div className="hero-art aspect-[4/3] overflow-hidden bg-oak-dark md:aspect-[21/9]">
           <Visual art={c.hero} alt={`${c.title} in stock at Romsey Reclamation`} priority />
         </div>
       </div>
@@ -63,7 +67,7 @@ export default async function CategoryPage({ params }: { params: Promise<{ slug:
       <section aria-label={`${c.title} gallery`} className="wrap">
         <ul className={`grid gap-4 ${c.gallery.length > 3 ? "sm:grid-cols-2 lg:grid-cols-4" : "sm:grid-cols-3"}`}>
           {c.gallery.map((g, i) => (
-            <li key={i}>
+            <li key={i} className="reveal">
               <figure>
                 <div className="aspect-[4/5] overflow-hidden bg-oak-dark"><Visual art={g.art} alt={g.caption} /></div>
                 <figcaption className="mt-3 text-sm text-charcoal/70">{g.caption}</figcaption>
@@ -84,9 +88,10 @@ export default async function CategoryPage({ params }: { params: Promise<{ slug:
                   <p className="mt-1.5 max-w-xl text-charcoal/80">{it.description}</p>
                   {it.spec && <p className="mt-2 text-[0.95rem] text-oak">{it.spec}</p>}
                 </div>
-                <div className="flex items-start gap-4 sm:flex-col sm:items-end">
+                <div className="flex flex-wrap items-center gap-3 sm:flex-col sm:items-end">
                   {it.tag && <span className="border border-rule px-2.5 py-0.5 text-[0.8rem]">{it.tag}</span>}
                   {it.price && <p className="font-semibold">{it.price}</p>}
+                  {it.tag !== "Service" && <AddToList name={it.name} category={c.slug} />}
                 </div>
               </li>
             ))}
@@ -110,6 +115,19 @@ export default async function CategoryPage({ params }: { params: Promise<{ slug:
         )}
       </section>
 
+      {calc && (
+        <section aria-label="Quantity calculator" className="border-y border-rule bg-plaster-deep">
+          <div className="wrap grid gap-10 py-16 lg:grid-cols-12 lg:items-center lg:py-20">
+            <div className="lg:col-span-4">
+              <h2 className="stencil text-[clamp(2.4rem,5vw,4rem)]">Work out quantities</h2>
+              <p className="mt-4 max-w-sm text-charcoal/75">Get a quick estimate, then add it to your enquiry list — we’ll confirm stock and delivery.</p>
+              <Link href="/calculators" className="link-u mt-6 inline-block font-semibold">All calculators →</Link>
+            </div>
+            <div className="lg:col-span-7 lg:col-start-6"><Calculator kind={calc} compact /></div>
+          </div>
+        </section>
+      )}
+
       <section aria-labelledby="enq-title" className="bg-charcoal text-lime">
         <div className="wrap flex flex-col gap-8 py-16 md:flex-row md:items-center md:justify-between">
           <div className="max-w-xl">
@@ -118,6 +136,7 @@ export default async function CategoryPage({ params }: { params: Promise<{ slug:
           </div>
           <div className="flex flex-wrap gap-3">
             <Link href={`/contact?material=${c.slug}#enquire`} className="btn btn-light">Send an enquiry</Link>
+            <Link href="/contact?material=matching#enquire" className="btn btn-ghost-light">Match a sample</Link>
             <a href={site.phone.href} className="btn btn-ghost-light"><Phone className="h-4 w-4" strokeWidth={1.75} />{site.phone.display}</a>
           </div>
         </div>
@@ -127,7 +146,7 @@ export default async function CategoryPage({ params }: { params: Promise<{ slug:
         <h2 id="rel-title" className="stencil mb-10 text-[clamp(2.2rem,5vw,3.8rem)]">Related materials</h2>
         <ul className="grid gap-8 sm:grid-cols-3">
           {related.map((r) => (
-            <li key={r.slug}>
+            <li key={r.slug} className="reveal">
               <Link href={`/${r.slug}`} className="group block">
                 <div className="img-zoom aspect-[4/3] overflow-hidden bg-oak-dark"><Visual art={r.hero} alt={r.title} /></div>
                 <h3 className="mt-4 font-display text-2xl">{r.title}</h3>

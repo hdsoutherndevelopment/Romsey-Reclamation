@@ -46,11 +46,10 @@ export const site = {
 
 export const nav = [
   { label: "Products", href: "/materials" },
-  { label: "Reclaimed Materials", href: "/reclaimed" },
-  { label: "Oak & Timber", href: "/oak" },
-  { label: "Paving & Stone", href: "/paving" },
+  { label: "Calculators", href: "/calculators" },
   { label: "Projects", href: "/projects" },
-  { label: "About", href: "/about" },
   { label: "Gallery", href: "/gallery" },
+  { label: "Sell to Us", href: "/sell" },
+  { label: "About", href: "/about" },
   { label: "Contact", href: "/contact" },
 ];

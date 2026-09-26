@@ -96,3 +96,25 @@
 
 .no-scrollbar { scrollbar-width: none; }
 .no-scrollbar::-webkit-scrollbar { display: none; }
+
+/* Scroll reveals: pure CSS scroll-driven animation, progressive enhancement (no JS, no layout shift). */
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    @keyframes reveal { from { opacity: 0; transform: translateY(2.5rem); } to { opacity: 1; transform: none; } }
+    .reveal { animation: reveal linear both; animation-timeline: view(); animation-range: entry 0% entry 55%; }
+    @keyframes drift { from { transform: translateY(-6%) scale(1.12); } to { transform: translateY(6%) scale(1.12); } }
+    .parallax img { animation: drift linear both; animation-timeline: view(); }
+  }
+}
+
+/* Material marquee */
+@keyframes marquee { to { transform: translateX(-50%); } }
+.marquee { display: flex; width: max-content; animation: marquee 50s linear infinite; }
+.marquee:hover { animation-play-state: paused; }
+
+@keyframes pop { 0% { transform: scale(.4); } 70% { transform: scale(1.2); } 100% { transform: scale(1); } }
+.badge-pop { animation: pop .35s cubic-bezier(.2,.8,.2,1); }
+@keyframes mega-in { from { opacity: 0; transform: translateY(-6px); } to { opacity: 1; transform: none; } }
+.mega-in { animation: mega-in .22s ease-out; }
+
+dialog[open] { animation: fade .2s ease-out; }

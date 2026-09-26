@@ -3,7 +3,13 @@ import Link from "next/link";
 import { PageHead } from "@/components/PageHead";
 import { Visual } from "@/components/Visual";
 import { VisitYard } from "@/components/sections/VisitYard";
-import { categories, inventory } from "@/lib/materials";
+import { MaterialSearch } from "@/components/MaterialSearch";
+import { categories, inventory, getCategory } from "@/lib/materials";
+
+// Every stock line on the site, de-duplicated, for the search.
+const entries = [...inventory.map((i) => ({ ...i, category: getCategory(i.slug)?.menuTitle ?? "" })), ...categories.flatMap((c) => c.items.map((it) => ({ name: it.name, slug: c.slug, category: c.menuTitle })))]
+  .filter((e, i, all) => all.findIndex((x) => x.name.toLowerCase() === e.name.toLowerCase()) === i)
+  .sort((a, b) => a.name.localeCompare(b.name));
 
 export const metadata: Metadata = {
   title: "Products — Reclaimed Building Materials",
@@ -30,14 +36,8 @@ export default function Materials() {
       </section>
       <section aria-labelledby="az-title" className="wrap py-20 lg:py-28">
         <div className="grid gap-10 lg:grid-cols-12">
-          <h2 id="az-title" className="font-display text-[clamp(2.4rem,5vw,4rem)] leading-none lg:col-span-4">Regular stock, A–Z</h2>
-          <ul className="columns-1 gap-8 border-t border-charcoal pt-4 sm:columns-2 lg:col-span-8 lg:columns-3">
-            {inventory.map((i) => (
-              <li key={i.name} className="break-inside-avoid border-b border-rule py-2.5">
-                <Link href={`/${i.slug}`} className="link-u">{i.name}</Link>
-              </li>
-            ))}
-          </ul>
+          <h2 id="az-title" className="font-display text-[clamp(2.4rem,5vw,4rem)] leading-none lg:col-span-4">Find it fast</h2>
+          <div className="lg:col-span-8"><MaterialSearch entries={entries} /></div>
         </div>
       </section>
       <VisitYard />
