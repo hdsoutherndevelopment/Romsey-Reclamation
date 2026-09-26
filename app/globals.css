@@ -1,0 +1,98 @@
+@import "tailwindcss";
+
+@theme {
+  --color-plaster: #eee8dc;
+  --color-plaster-deep: #e2d9c9;
+  --color-lime: #f6f2ea;
+  --color-charcoal: #26241f;
+  --color-soot: #1b1916;
+  --color-oak: #7b5a3a;
+  --color-oak-dark: #2e241b;
+  --color-oak-light: #b08a5e;
+  --color-moss: #56604a;
+  --color-brick: #9a4a33;
+  --color-stone: #a9a08f;
+  --color-rule: rgb(38 36 31 / 0.16);
+
+  --font-sans: var(--font-archivo), "Helvetica Neue", Arial, sans-serif;
+  --font-display: var(--font-caslon), "Libre Caslon Display", Georgia, "Times New Roman", serif;
+}
+
+@layer base {
+  html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
+  body {
+    background: var(--color-plaster);
+    color: var(--color-charcoal);
+    font-family: var(--font-sans);
+    font-size: 1.0625rem;
+    line-height: 1.6;
+    text-rendering: optimizeLegibility;
+  }
+  /* aged plaster: a faint limewash texture behind everything */
+  body::before {
+    content: "";
+    position: fixed; inset: 0; z-index: -1; pointer-events: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='240'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.7' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='240' height='240' filter='url(%23n)' opacity='.55'/%3E%3C/svg%3E");
+    opacity: 0.09; mix-blend-mode: multiply;
+  }
+  ::selection { background: var(--color-oak); color: var(--color-lime); }
+  :focus-visible { outline: 2px solid var(--color-brick); outline-offset: 3px; }
+  @media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+    *, *::before, *::after { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; }
+  }
+}
+
+@utility stencil {
+  font-family: var(--font-sans);
+  font-weight: 800;
+  font-stretch: 68%;
+  text-transform: uppercase;
+  letter-spacing: -0.005em;
+  line-height: 0.88;
+}
+@utility wrap {
+  width: 100%;
+  max-width: 88rem;
+  margin-inline: auto;
+  padding-inline: clamp(1.25rem, 4vw, 3rem);
+}
+
+@layer components {
+  .btn {
+    display: inline-flex; align-items: center; justify-content: center; gap: .6rem;
+    min-height: 3.1rem; padding: .8rem 1.5rem;
+    font-weight: 600; font-size: .98rem; letter-spacing: .01em;
+    border: 1px solid currentColor; border-radius: 2px;
+    transition: background-color .25s, color .25s, border-color .25s;
+  }
+  .btn-solid { background: var(--color-charcoal); color: var(--color-lime); border-color: var(--color-charcoal); }
+  .btn-solid:hover { background: var(--color-oak); border-color: var(--color-oak); }
+  .btn-light { background: var(--color-lime); color: var(--color-charcoal); border-color: var(--color-lime); }
+  .btn-light:hover { background: transparent; color: var(--color-lime); }
+  .btn-ghost-light { color: var(--color-lime); border-color: rgb(246 242 234 / .55); }
+  .btn-ghost-light:hover { background: rgb(246 242 234 / .1); border-color: var(--color-lime); }
+  .btn-ghost { color: var(--color-charcoal); border-color: var(--color-rule); }
+  .btn-ghost:hover { border-color: var(--color-charcoal); }
+
+  .link-u { background: linear-gradient(currentColor, currentColor) 0 100% / 0 1px no-repeat; transition: background-size .35s ease; padding-bottom: 2px; }
+  .link-u:hover, .group:hover .link-u { background-size: 100% 1px; }
+
+  .img-zoom img { transition: transform 1.1s cubic-bezier(.2,.7,.2,1); }
+  .group:hover .img-zoom img { transform: scale(1.045); }
+
+  .prose-rr p + p { margin-top: 1.1em; }
+}
+
+/* Hero: the one orchestrated moment */
+@keyframes settle { from { transform: scale(1.09); } to { transform: scale(1); } }
+@keyframes rise { from { transform: translateY(105%); } to { transform: translateY(0); } }
+@keyframes fade { from { opacity: 0; } to { opacity: 1; } }
+.hero-art img { animation: settle 3.2s cubic-bezier(.2,.7,.2,1) both; }
+.hero-line { display: block; overflow: hidden; }
+.hero-line > span { display: block; animation: rise 1.1s cubic-bezier(.2,.8,.2,1) both; }
+.hero-line:nth-child(2) > span { animation-delay: .14s; }
+.hero-fade { animation: fade 1s ease .7s both; }
+
+.no-scrollbar { scrollbar-width: none; }
+.no-scrollbar::-webkit-scrollbar { display: none; }
